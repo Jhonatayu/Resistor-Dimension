@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Net;
 using System.Reflection.Metadata.Ecma335;
 
 namespace ResistorDimension
@@ -29,7 +33,7 @@ namespace ResistorDimension
                         Serie();
                         break;
                     case Menu.resistoresParalelo:
-                        //Paralelo();
+                        Paralelo();
                         break;
                     case Menu.sair:
                         Clear();
@@ -55,9 +59,10 @@ namespace ResistorDimension
 
                 while (valor != 0)
                 {
-                    Console.Clear();
+                    Clear();
                     Console.Write("Digite o valor do resistor (Para parar digite 0): ");
                     valor = decimal.Parse(Console.ReadLine());
+
                     if (valor != 0)
                     {
                         resistores.Add(valor);
@@ -76,7 +81,7 @@ namespace ResistorDimension
                 decimal resistenciaTotal = 0;
                 foreach (decimal resistor in resistores)
                 {
-                    Console.WriteLine($"Resistor{i}: {resistor}");
+                    Console.WriteLine($"Resistor{i}: {resistor} Ohms");
                     resistenciaTotal += resistor;
                     i++;
                 }
@@ -104,12 +109,74 @@ namespace ResistorDimension
                     decimal tensaoResistor = correnteTotal * resistor;
                     tensaoResistor = Math.Round(tensaoResistor, 3);
 
-                    Console.WriteLine($"Resistor{i}: \t{tensaoResistor}");
+                    Console.WriteLine($"Resistor{i}: \t{tensaoResistor}V");
                     i++;
                 }
 
                 Console.Write("\nPressione ENTER para retornar ao menu. ");
                 ReadLine();
+                Clear();
+                ProgramMenu();
+            }
+
+            static void Paralelo()
+            {
+                decimal valor = 1;
+                List<decimal> resistores = new List<decimal>();
+
+                while (valor != 0)
+                {
+                    Clear();
+                    Console.Write("Digite o valor do resistor (Para parar digite 0): ");
+                    valor = decimal.Parse(Console.ReadLine());
+
+                    if (valor != 0)
+                    {
+                        resistores.Add(valor);
+                    }
+                    Clear();
+                }
+
+                int i = 1;
+                foreach(int resistor in resistores)
+                {
+                    Console.WriteLine($"Resistor{i}: {resistor} Ohms");
+                }
+                Console.Write("\nDeseja alterar os valores? (sim/não) ");
+                string opcao = Console.ReadLine().ToUpper();
+
+                if (opcao == "SIM")
+                {
+                    Clear();
+                    Paralelo();
+
+                }else if (opcao == "NÃO" || opcao == "NAO")
+                {
+                    Clear();
+                }
+
+                if (resistores.Count == 2)
+                {
+                    decimal resistenciaTotal = (resistores[0] * resistores[1]) / (resistores[0] + resistores[1]);
+                    resistenciaTotal = Math.Round(resistenciaTotal, 3);
+                    Console.WriteLine($"A resistência total da malha é: {resistenciaTotal} Ohms");
+
+                } else if (resistores.Count > 2)
+                {
+                    decimal inversoResistenciaTotal = 0;
+                    foreach (decimal resistor in resistores)
+                    {
+                    inversoResistenciaTotal += 1 / resistor;
+                    }
+
+                    decimal resistenciaTotal = 1 / inversoResistenciaTotal;
+                    resistenciaTotal = Math.Round(resistenciaTotal, 3);
+                    Console.WriteLine($"A resistência total da malha é: {resistenciaTotal} Ohms");
+                    }
+
+                Console.Write("\nPressione ENTER para retornar ao menu. ");
+                ReadLine();
+                Clear();
                 ProgramMenu();
             }
         }
