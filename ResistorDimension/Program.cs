@@ -67,7 +67,11 @@ namespace ResistorDimension
 
                 Console.Write("Digite a tensão total da malha de resistores (em volts): ");
                 decimal tensaoTotal = decimal.Parse(Console.ReadLine());
+                tensaoTotal = Math.Round(tensaoTotal, 3);
                 Clear();
+
+                Console.WriteLine($"Tensão total: {tensaoTotal}V\n");
+
                 int i = 1;
                 decimal resistenciaTotal = 0;
                 foreach (decimal resistor in resistores)
@@ -76,10 +80,23 @@ namespace ResistorDimension
                     resistenciaTotal += resistor;
                     i++;
                 }
-                Clear();
-                ReadLine();
+
+                Console.Write("\nDeseja alterar os valores? (sim/não) ");
+                string opcao = Console.ReadLine().ToUpper();
+
+                if (opcao == "SIM")
+                {
+                    Clear();
+                    Serie();
+                }else if (opcao == "NÃO" || opcao == "NAO"){
+
+                    Clear();
+                }
 
                 decimal correnteTotal = tensaoTotal / resistenciaTotal;
+
+                Console.WriteLine("Tensão sobre cada resistor: \n");
+                Console.WriteLine("Resistores\tTensão\n");
 
                 i = 1;
                 foreach (decimal resistor in resistores)
@@ -87,11 +104,13 @@ namespace ResistorDimension
                     decimal tensaoResistor = correnteTotal * resistor;
                     tensaoResistor = Math.Round(tensaoResistor, 3);
 
-                    Console.WriteLine($"Tensão sobre o resistor{i}: {tensaoResistor}");
+                    Console.WriteLine($"Resistor{i}: \t{tensaoResistor}");
                     i++;
                 }
 
+                Console.Write("\nPressione ENTER para retornar ao menu. ");
                 ReadLine();
+                ProgramMenu();
             }
         }
 
