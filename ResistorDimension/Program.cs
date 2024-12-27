@@ -101,7 +101,7 @@ namespace ResistorDimension
                 decimal correnteTotal = tensaoTotal / resistenciaTotal;
 
                 Console.WriteLine("Tensão sobre cada resistor: \n");
-                Console.WriteLine("Resistores\tTensão\n");
+                Console.WriteLine("Resistores\tResistência\tTensão\n");
 
                 i = 1;
                 foreach (decimal resistor in resistores)
@@ -109,7 +109,7 @@ namespace ResistorDimension
                     decimal tensaoResistor = correnteTotal * resistor;
                     tensaoResistor = Math.Round(tensaoResistor, 3);
 
-                    Console.WriteLine($"Resistor{i}: \t{tensaoResistor}V");
+                    Console.WriteLine($"Resistor{i}:\t{resistor} Ohms \t{tensaoResistor}V");
                     i++;
                 }
 
